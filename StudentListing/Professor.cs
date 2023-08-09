@@ -13,6 +13,6 @@ namespace StudentListing
 
         public string LastName { get; set; }  
         
-        //public IList<Student> Students { get; set; }
+        public IList<Student> Students { get; set; }
     }
 }

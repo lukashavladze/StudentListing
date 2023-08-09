@@ -12,8 +12,8 @@ using StudentListing.Data;
 namespace StudentListing.Migrations
 {
     [DbContext(typeof(StudentListingDbContext))]
-    [Migration("20230809141223_mm1")]
-    partial class mm1
+    [Migration("20230809143348_ms1")]
+    partial class ms1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,7 @@ namespace StudentListing.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfessorId")
+                    b.Property<int>("ProfessorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -74,9 +74,13 @@ namespace StudentListing.Migrations
 
             modelBuilder.Entity("StudentListing.Student", b =>
                 {
-                    b.HasOne("StudentListing.Professor", null)
+                    b.HasOne("StudentListing.Professor", "professor")
                         .WithMany("Students")
-                        .HasForeignKey("ProfessorId");
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("professor");
                 });
 
             modelBuilder.Entity("StudentListing.Professor", b =>

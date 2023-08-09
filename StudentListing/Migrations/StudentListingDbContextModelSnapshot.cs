@@ -59,7 +59,7 @@ namespace StudentListing.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfessorId")
+                    b.Property<int>("ProfessorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -71,9 +71,13 @@ namespace StudentListing.Migrations
 
             modelBuilder.Entity("StudentListing.Student", b =>
                 {
-                    b.HasOne("StudentListing.Professor", null)
+                    b.HasOne("StudentListing.Professor", "professor")
                         .WithMany("Students")
-                        .HasForeignKey("ProfessorId");
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("professor");
                 });
 
             modelBuilder.Entity("StudentListing.Professor", b =>

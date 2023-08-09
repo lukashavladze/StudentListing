@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentListing;
 using StudentListing.Data;
-using StudentListing.Dto;
 
 namespace StudentListing.Controllers
 {
@@ -17,20 +15,21 @@ namespace StudentListing.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly StudentListingDbContext _context;
-        private readonly IMapper _mapper;
 
-        public StudentsController(StudentListingDbContext context, IMapper mapper)
+        public StudentsController(StudentListingDbContext context)
         {
             _context = context;
-            this._mapper = mapper;
         }
 
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BaseStudentDto>>> GetStudents()
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            var students = await _context.Students.ToListAsync();
-            return _mapper.Map<List<BaseStudentDto>>(students);
+          if (_context.Students == null)
+          {
+              return NotFound();
+          }
+            return await _context.Students.ToListAsync();
         }
 
         // GET: api/Students/5
@@ -85,17 +84,16 @@ namespace StudentListing.Controllers
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(PostStudentDto postStudent)
+        public async Task<ActionResult<Student>> PostStudent(Student student)
         {
           if (_context.Students == null)
           {
               return Problem("Entity set 'StudentListingDbContext.Students'  is null.");
           }
-          var students = _mapper.Map<Student>(postStudent);
-            _context.Add(students);
-           await _context.SaveChangesAsync();
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudent", new { id = students.Id }, students);
+            return CreatedAtAction("GetStudent", new { id = student.Id }, student);
         }
 
         // DELETE: api/Students/5
