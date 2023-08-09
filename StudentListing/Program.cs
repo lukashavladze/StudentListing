@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using StudentListing.automapper;
 using StudentListing.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(Automapper));
 
 builder.Services.AddCors(options =>
 {
@@ -35,6 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors("AllowEvery");
+
 app.MapControllers();
 
 app.Run();

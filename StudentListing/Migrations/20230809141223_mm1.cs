@@ -5,7 +5,7 @@
 namespace StudentListing.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class mm1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,23 +32,22 @@ namespace StudentListing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    professorId = table.Column<int>(type: "int", nullable: false)
+                    ProfessorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Professors_professorId",
-                        column: x => x.professorId,
+                        name: "FK_Students_Professors_ProfessorId",
+                        column: x => x.ProfessorId,
                         principalTable: "Professors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_professorId",
+                name: "IX_Students_ProfessorId",
                 table: "Students",
-                column: "professorId");
+                column: "ProfessorId");
         }
 
         /// <inheritdoc />

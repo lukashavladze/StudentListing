@@ -4,7 +4,7 @@ namespace StudentListing.Data
 {
     public class StudentListingDbContext : DbContext
     {
-        public StudentListingDbContext(DbContextOptions options) : base(options)
+        public StudentListingDbContext(DbContextOptions<StudentListingDbContext> options) : base(options)
         {
             
         }
@@ -15,6 +15,7 @@ namespace StudentListing.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
         }
     }
 }
