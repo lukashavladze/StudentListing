@@ -8,5 +8,7 @@ namespace StudentListing.Dto
 
         public string LastName { get; set; }
 
+        public int ProfessorId { get; set; }
+
     }
 }
